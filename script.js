@@ -182,7 +182,7 @@ function profile() {
     document.getElementById("button1").innerHTML = "Music";
     document.getElementById("button2").innerHTML = "Back";
     document.getElementById("button3").innerHTML = "";
-    document.getElementById("button1").setAttribute('onclick', "music()");
+    document.getElementById("button1").setAttribute('onclick', "playMusic()");
     document.getElementById("button2").setAttribute('onclick', "menu()");
     document.getElementById("button3").setAttribute('onclick', "");
 }
@@ -830,31 +830,47 @@ function game() {
             return;
         })
         
+    } else {
+        if (chance >= 12) {
+            adventure_stats[0]+=1;
+            died = (dead);
+            document.getElementById("gamehead1").innerHTML = died;
+            
+            battle();
+    
+    
+            saveState();
+            
+            
+        } else if (chance >= 5) {
+            adventure_stats[0]+=1;
+            story();
+            saveState();
+    
+        } else {
+            adventure_stats[0]+=1;
+            choice();
+            saveState();
+        }
     }
     console.log(chance)
-    if (chance >= 12) {
-        adventure_stats[0]+=1;
-        died = (dead);
-        document.getElementById("gamehead1").innerHTML = died;
-        
-        battle();
-
-
-        saveState();
-        
-        
-    } else if (chance >= 5) {
-        adventure_stats[0]+=1;
-        story();
-        saveState();
-
-    } else {
-        adventure_stats[0]+=1;
-        choice();
-        saveState();
-    }
+    
     
 }
+music = true
+
+function playMusic() {
+    x = document.getElementById("bgmusic");
+    if (music == false) {
+        x.play();
+        music = true
+    } else {
+        x.pause();
+        music = false
+    }
+}
+
+
 herof = 0
 heropick = 0
 function pickHero() {
@@ -892,7 +908,7 @@ function HeroShop() {
         price = 0
     }
     
-    document.getElementById('gamehead1').innerHTML = "Pick Your Hero. Heroes: "+herop+"/8&nbsp&nbspPrice:"+price+"&nbsp&nbsp&nbspMoney: $"+money+"hi:"+heropick;
+    document.getElementById('gamehead1').innerHTML = "Pick Your Hero. Heroes: "+herop+"/8&nbsp&nbspPrice:"+price+"&nbsp&nbsp&nbspMoney: $"+money;
     document.getElementById('gamehead2').innerHTML = "Current Hero: "+herolist[heropick]+"  &nbsp&nbsp&nbspClass: "+heroclasses[heropick]+"&nbsp&nbsp&nbsp    Rarity: "+herorar[heropick]+"&nbsp&nbsp&nbsp  Description: "+herospec[heropick];
     document.getElementById("button1").innerHTML = "Buy";
     document.getElementById("button2").innerHTML = "Next "+herop+"/8";
@@ -960,3 +976,4 @@ function selhero() {
     })
 }
 //setAttribute('setAttribute('onclick',"
+//profile
