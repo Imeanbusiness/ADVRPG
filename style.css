@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css?family=Oswald");
+
+body, html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: 0px;
+    
+    font-family: "Oswald";
+    color: white;
+    
+}
+
+
+
+body {
+    background-image: url("backgrounds/suburbia.png");
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+.headingdiv {
+    text-align: center;
+
+    position: relative;
+
+}
+
+.title {
+    color: #ffddff;
+    font-family: "Oswald";
+  
+}
+
+button {
+    border-radius: 5px;
+    margin: 1em;
+    width: 350px;
+    background-color: blueviolet;
+    font-family: "Oswald";
+    color: #ffffff;
+    height: 80px;
+}
+
+.Buttons {
+    text-align: center;
+}
+
+.gameimage {
+    height: 100px;
+    width: 100px;
+}   

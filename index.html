@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>AdventureRPG</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+  <body onload = "loadUp()">
+
+    <div class="headingdiv">
+      <audio autoplay loop id="bgmusic">
+        <source src = "sounds/bg.mp3">
+      </audio>
+      <font size="+2">
+        
+        <h1 class = "title">Adventure RPG</h1>
+        <h3 id = "gamehead1">It's an RPG!</h3>
+        <h4 id = "gamehead2">Made by Imeanbusiness</h4>
+
+      </font>
+    
+    </div>
+    <center>
+      <img id="gameimage" class = "gameimage" src="images/title.png">
+    </center>
+    
+    <div class = "Buttons">
+      
+        <button id = "button1" onclick = "preGame()">Play</button><br>
+        <button id = "button2" onclick = "heroopt()">Heroes</button><br>
+        <button id = "button3" onclick = "profile()">Profile</button><br>
+      
+
+    </div>
+    <script src="script.js"></script>
+
+  </body>
+
+
+</html>
