@@ -9,6 +9,8 @@ var money = 0;
 var xp = 0;
 heropick = 0;
 var lvl = 1;
+var dmgboost = 1;
+var hpboost = 1;
 const herolist = ["Joe","Bobby","Jane","Grayson","The Captain","Tom","Jakr","Lee"]
 const herohp = [100, 200, 80, 60, 75, 300, 125, 50]
 const heroatk = [20, 10, 5, 40, 30, 5, 10, 50]
@@ -17,6 +19,10 @@ const heroclasses = ["All-Rounder","Tank","Healer", "Assasin", "Damage Dealer", 
 const herorar = ["Common", "Rare", "Rare", "Rare", "Epic", "Epic", "Legendary", "Legendary"];
 const herospec = ["Average Joe. Punches and Kicks.", "Tankier guy.", "Girl with better healing.","Punches and kicks better.","Bombs away! Rain 2* damage at the cheap cost of 10 hp.","Run Over: Deals damage based on HP/5","Power Heal: Takes half of the heal and uses it as damage. Ultra Blast: Converts 5 hp to 30 damage.","Dragon Kick: Has 50% HP steal. Heavy Blow: Deals 2x damage. Lose 5hp. Never misses"]
 
+const weapons = ["Common Sword", "Common Bat", "Common Chair", "Rare BB gun", "Rare Killer Knife", "Rare Computer", "Rare Bomb", "Epic RPG", "Epic M46 Bulldog", "Epic Cat", "Legendary Rainbow Maker", "Legendary Tank"]
+const armor = ["Common Table", "Common Glove", "Common Bag", "Rare Shield", "Rare Box", "Rare Spray","Rare Baby", "Epic Barricade","Epic Wall", "Epic Floor","Legendary Spartan Armor", "Legendary Guy"]
+let lootunlocked = new Array(["Loser fists", "Loser body"])
+let loot = 2
 
 
 const suburbenemytypes = ["Teenaager", "Bully", "Gangster", "Punk Kid", "Grumpy Old Man", "Feya"];
@@ -38,15 +44,23 @@ const suburbresp = ["You found a dead cat while walking around. It hurt your fel
 "You walk home, then go out of your home.",
 "You find a dying man on the street. You throw him into the garbage and move on.",
 "Take a break. Or don't.",
-"You wonder if there actually is a story."];
+"You wonder if there actually is a story.",
+"Your mom is hot. I am your father.",
+"You wonder why you left your home",
+"You grew really tall. Then you woke up.",
+"You were wondering why the ball was slowly growing bigger and bigger. Then it hit you.",
+"You found the air!!",
+"You realize how stupid this is. You keep going."];
 const suburbchoice = ["You found a box! Open it?",
 "A strange man asks you for help. Yes or no?",
 "Your mother offers you a gift. Accept?",
 "A nigerian prince is requesting money. Give some?",
 "A pretty girl offers you a night for some cash. Wanna bargain?",
 "A man tells you to kill a kid named James. Do it?",
-"A young boy is look for the Black Parade. Help him?"];
-
+"A young boy is look for the Black Parade. Help him?",
+"I want to give you something. Accept?",
+"You're cool. Yes?"];
+//profi
 const sleep = (delayInms) => {
     return new Promise(resolve => setTimeout(resolve, delayInms));
 };
@@ -67,12 +81,29 @@ function loadUp() {
         saveVal()
         document.getElementById("gamehead1").innerHTML = "Current Hero: "+currenthero
     }
+    saved2 = localStorage.getItem("saved");
+    if (saved2 == "hey") {
+        loot = Number(localStorage.getItem("loot"));
+        
+        lootunlocked = JSON.parse(localStorage.getItem("lootunlocked"))
     
+        console.log(JSON.parse(localStorage.getItem("lootunlocked")))
+        dmgboost = Number(localStorage.getItem("dmgboost"))
+        console.log(Number(localStorage.getItem("dmgboost")))
+        hpboost = Number(localStorage.getItem("hpboost"))
+    } else {
+        dmgboost = 1
+        hpboost = 1
+        console.log(hpboost);
+        localStorage.setItem("saved2","hey");
+        saveVal()
+        document.getElementById("gamehead1").innerHTML = "Current Hero: "+currenthero
+    }
 }
-
+//start
 function choice() {
     document.getElementById("gamehead1").innerHTML = "Story";
-    rand = RandInt(6);
+    rand = RandInt(8);
     document.getElementById("gamehead2").innerHTML = suburbchoice[Number(rand)];
     
     Delay().then(() => {
@@ -88,6 +119,105 @@ function choice() {
 
 }
 
+
+function defaultResp() {
+    console.log("1s");
+    document.getElementById("button1").innerHTML = "Continue";
+    document.getElementById("button2").innerHTML = "";
+    document.getElementById("button3").innerHTML = "";
+
+
+    document.getElementById("button1").setAttribute('onclick', "game()");
+    document.getElementById("button2").setAttribute('onclick', "");
+    document.getElementById("button3").setAttribute('onclick', "");
+}
+
+function lootGain() {
+    chance = RandInt(100);
+    chance2 = RandInt(1);
+    if (chance2 == 0) {
+        if (chance >= 90) {
+            chance = 10+RandInt(1)
+            lootunlocked.push(weapons[chance]);
+            dmgboost+=1;
+            document.getElementById("gamehead1").innerHTML = "You got a new weapon! You got a 100% damage boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+weapons[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        } else if (chance >= 70) {
+            chance = 7 +RandInt(2)
+            lootunlocked.push(weapons[chance]);
+            document.getElementById("gamehead1").innerHTML = "You got a new weapon! You got a 50% damage boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+weapons[chance]; 
+            dmgboost+=0.5;
+            Delay().then(() => {
+                defaultResp();
+            })
+        } else if (chance >= 40) {
+            chance = 3 +RandInt(3)
+            lootunlocked.push(weapons[chance]);
+            dmgboost+=0.25;
+            document.getElementById("gamehead1").innerHTML = "You got a new weapon! You got a 25% damage boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+weapons[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        }
+        else {
+            chance =  RandInt(2)
+            lootunlocked.push(weapons[chance]);
+            dmgboost+=0.1;
+            document.getElementById("gamehead1").innerHTML = "You got a new weapon! You got a 10% damage boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+weapons[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        }
+    } else {
+        if (chance >= 90) {
+            chance = 10+RandInt(1)
+            lootunlocked.push(weapons[chance]);
+            hpboost+=1;
+            document.getElementById("gamehead1").innerHTML = "You got a new armor! You got a 100% HP boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+armor[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        } else if (chance >= 70) {
+            chance = 7 +RandInt(2)
+            lootunlocked.push(armor[chance]);
+            document.getElementById("gamehead1").innerHTML = "You got a new armor! You got a 50% HP boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+armor[chance]; 
+            hpboost+=0.5;
+            Delay().then(() => {
+                defaultResp();
+            })
+        } else if (chance >= 40) {
+            chance = 3 +RandInt(3)
+            lootunlocked.push(armor[chance]);
+            hpboost+=0.25;
+            document.getElementById("gamehead1").innerHTML = "You got a new armor! You got a 25% HP boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+armor[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        }
+        else {
+            chance =  RandInt(2)
+            lootunlocked.push(armor[chance]);
+            hpboost+=0.1;
+            document.getElementById("gamehead1").innerHTML = "You got a new armor! You got a 10% HP boost"; 
+            document.getElementById("gamehead2").innerHTML = "You got a "+armor[chance]; 
+            Delay().then(() => {
+                defaultResp();
+            })
+        }
+    }
+    loot+=1;
+    
+}
+//lootGain
 function yes() {
     chance = RandInt(2);
     if (chance == 1) {
@@ -148,25 +278,59 @@ function no() {
 
 
 function saveVal() {
+    
     localStorage.setItem("heroes", JSON.stringify(heroesunlocked));
     localStorage.setItem("hero", currenthero);
     localStorage.setItem("stats", JSON.stringify(setstats))
     localStorage.setItem("money", money);
     localStorage.setItem("xp", xp);
     localStorage.setItem("lvl", lvl);
+    
+    console.log(hpboost)
+    localStorage.setItem("dmgboost", dmgboost);
+    localStorage.setItem("hpboost", hpboost);
+    localStorage.setItem("loot",loot);
+    localStorage.setItem("lootunlocked",JSON.stringify(lootunlocked));
+}
+
+
+
+//savestate
+
+//story
+
+function inventory() {
+    x = 0 
+    msg = "Your loot: "
+    while (x!=loot-1) {
+        msg+=lootunlocked[x]+",&nbsp";
+        x+=1
+
+
+    }
+    document.getElementById("gamehead1").innerHTML = "Inventory:";
+    document.getElementById("gamehead2").innerHTML = msg;
+    document.getElementById("button1").innerHTML = "Back";
+    document.getElementById("button2").innerHTML = "";
+    document.getElementById("button3").innerHTML = "";
+
+
+    document.getElementById("button1").setAttribute('onclick', "menu()");
+    document.getElementById("button2").setAttribute('onclick', "");
+    document.getElementById("button3").setAttribute('onclick', "");
 }
 
 function RandInt(i) {
  
     //eg: if i = 1, will return 0 or 1
-    rand = Math.floor(Math.random()*i+1);
+    rand = Math.floor(Math.random()*(i+1));
     return rand;
 }
-
+//savestate
 
 function menu() {
     saveVal();
-    document.getElementById("gamehead1").innerHTML = "It's an RPG!";
+    document.getElementById("gamehead1").innerHTML = "Current Hero:",selhero;
     document.getElementById("gamehead2").innerHTML = "Made by Imeanbusiness";
     document.getElementById("button1").innerHTML = "Play";
     document.getElementById("button2").innerHTML = "Heroes";
@@ -181,10 +345,11 @@ function profile() {
     document.getElementById("gamehead2").innerHTML = "Hero: "+currenthero+"&nbsp&nbsp&nbspMoney: $"+money+"&nbsp&nbsp&nbspLvl: "+lvl+"&nbsp"+xp+"XP/"+lvl*lvl*100+"XP";
     document.getElementById("button1").innerHTML = "Music";
     document.getElementById("button2").innerHTML = "Back";
-    document.getElementById("button3").innerHTML = "";
+    document.getElementById("button3").innerHTML = "Inventory";
+    
     document.getElementById("button1").setAttribute('onclick', "playMusic()");
     document.getElementById("button2").setAttribute('onclick', "menu()");
-    document.getElementById("button3").setAttribute('onclick', "");
+    document.getElementById("button3").setAttribute('onclick', "inventory()");
 }
 
 
@@ -222,9 +387,17 @@ async function Delay() {
 
 function start() {
     //list: 0: steps: 1: Score earned, 2: XP earned
+
     adventure_stats = [0,0,0];
+
+
+    
     //player stats. Will be changed later
     player_stats = setstats;
+    player_stats[0] *= dmgboost;
+    player_stats[1] *= hpboost;
+    console.log(dmgboost);
+    console.log(player_stats);
     var dead = 1;
     document.getElementById("gamehead1").innerHTML = "Story";
     document.getElementById("gamehead2").innerHTML = "You leave home!";
@@ -353,7 +526,7 @@ function heavyblow() {
     }
     return;
 }
-
+//savestate
 function bombsaway() {
     audiop = new Audio("sounds/punch.mp3");
     audiop.play();
@@ -467,7 +640,7 @@ function runover() {
     }
     return;
 }
-
+//saveval
 
 
 
@@ -511,12 +684,12 @@ function ultrablast() {
     return;
 }
 
-
+//choice
 function story() {
     
     document.getElementById("gamehead1").innerHTML = "Story";
-    rand = RandInt(15);
-    document.getElementById("gamehead2").innerHTML = suburbresp[Number(rand)];
+    rand = RandInt(20);
+    document.getElementById("gamehead2").innerHTML = suburbresp[Number(rand)]+" You gained 10xp!";
     
     Delay().then(() => {
         console.log("1s");
@@ -525,14 +698,15 @@ function story() {
     })
 }
 function battle() {
-    
+    enemylvl = RandInt(lvl)+1;
+    enemyscale = 1+enemylvl*0.25;
     enemyin = RandInt(5);
     enemyint = Number(enemyin);
-    enemyname = suburbenemytypes[enemyint];
-    enemyatk = suburbatk[enemyint];
-    enemyhp = suburbhealth[enemyint];
+    enemyname = "Level "+enemylvl+" "+suburbenemytypes[enemyint];
+    enemyatk = suburbatk[enemyint]*enemyscale;
+    enemyhp = suburbhealth[enemyint]*enemyscale;
     enemypng = suburbimages[enemyint];
-    enemydef = suburbdef[enemyint];
+    enemydef = suburbdef[enemyint]*enemyscale;
     document.getElementById("gameimage").src = "images/"+enemypng;
     document.getElementById("gameimage").style.height = "100px";
     document.getElementById("gameimage").style.width = "100px";
@@ -547,6 +721,7 @@ function battle() {
         yourturn();
     })
 }
+//menu
 function enemyturn() {
     audiop = new Audio("sounds/punch.mp3");
     audiop.play();
@@ -655,7 +830,7 @@ function punch() {
     return
 }
 
-
+//saveval
 
 
 
@@ -715,7 +890,7 @@ function kick() {
     }
    return
 }
-
+//saveval
 
 function heal() {
     audiop = new Audio("sounds/punch.mp3");
@@ -763,6 +938,8 @@ function saveState() {
         localStorage.setItem("steps",adventure_stats[0]);
         localStorage.setItem("score",adventure_stats[1]);
         localStorage.setItem("xp",adventure_stats[2]);
+        localStorage.setItem("loot",loot);
+        localStorage.setItem("lootunlocked",JSON.stringify(lootunlocked));
 }
 
 
@@ -812,8 +989,9 @@ function continueGame() {
 }
 
 function game() {
+    saveVal();
     dead = 1
-    chance = RandInt(15);
+    chance = RandInt(20);
     document.getElementById('gameimage').src = "images/title.png";
     
     if (player_stats[1] <= 0) {
@@ -822,7 +1000,9 @@ function game() {
         if (xp >= lvl*lvl*50) {
             lvl+=1;
         }
+        console.log(player_stats[1]);
         saveState();
+
         document.getElementById("gamehead1").innerHTML = "Game Over!";
         document.getElementById("gamehead2").innerHTML = "You earned $"+adventure_stats[1]+" and earned "+adventure_stats[2]+"XP! You stepped "+adventure_stats[0]+" steps.";
         Delay().then(() => {
@@ -831,7 +1011,7 @@ function game() {
         })
         
     } else {
-        if (chance >= 12) {
+        if (chance >= 17) {
             adventure_stats[0]+=1;
             died = (dead);
             document.getElementById("gamehead1").innerHTML = died;
@@ -842,14 +1022,18 @@ function game() {
             saveState();
             
             
-        } else if (chance >= 5) {
+        } else if (chance >= 9) {
+            adventure_stats[2]+=10;
             adventure_stats[0]+=1;
             story();
             saveState();
-    
+        } else if (chance >= 3) {
+                adventure_stats[0]+=1;
+                choice();
+                saveState();
         } else {
             adventure_stats[0]+=1;
-            choice();
+            lootGain();
             saveState();
         }
     }
@@ -969,11 +1153,11 @@ function heroopt() {
 
 function selhero() {
     currenthero = herolist[herof];
-    setstats = [heroatk[herof], herohp[herof], herodef[herof]]
+    setstats = [heroatk[herof]*dmgboost, herohp[herof]*hpboost, herodef[herof]]
     document.getElementById('gamehead1').innerHTML = "Success!";
     Delay().then(() => {
         pickHero();
     })
 }
 //setAttribute('setAttribute('onclick',"
-//profile
+//inventory
