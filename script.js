@@ -26,7 +26,7 @@ let loot = 2
 
 
 const suburbenemytypes = ["Teenaager", "Bully", "Gangster", "Punk Kid", "Grumpy Old Man", "Feya"];
-const suburbimages = ["teenager.png.","bully.png","gangster.png","punk.png","oldguy.png","Feya.png"]
+const suburbimages = ["teenager.png","bully.png","gangster.png","punk.png","oldguy.png","Feya.png"]
 const suburbhealth = [25,75,150,60,55,40]
 const suburbdef = [5,10,4,12,30,2]
 const suburbatk = [15, 10, 10, 8, 5, 50]
